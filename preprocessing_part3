@@ -1,0 +1,14 @@
+% Part 3 of the script: removing artefacts with the ASR plugin,
+% re-reference to the average, and running ICA.
+
+
+EEG = eeg_checkset( EEG );
+EEG = clean_artifacts( EEG,'FlatlineCriterion',5,'ChannelCriterion',0.7,'LineNoiseCriterion',4,'Highpass',[0.75 1.25] ,'BurstCriterion',20,'WindowCriterion',0.25,'BurstRejection','on','Distance','Euclidian','WindowCriterionTolerances',[-Inf 7] );
+[ALLEEG EEG CURRENTSET] = pop_newset(ALLEEG, EEG, [1:13] ,'study',1); 
+EEG = eeg_checkset( EEG );
+EEG = pop_reref( EEG,[],'interpchan',[]);
+[ALLEEG EEG CURRENTSET] = pop_newset(ALLEEG, EEG, [1:13] ,'study',1); 
+EEG = eeg_checkset( EEG );
+EEG = pop_runica(EEG, 'icatype','runica','concatcond','on','options',{'extended',1});
+[ALLEEG EEG] = eeg_store(ALLEEG, EEG, CURRENTSET);
+STUDY = std_checkset(STUDY, ALLEEG);
