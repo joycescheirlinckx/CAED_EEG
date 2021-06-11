@@ -1,0 +1,16 @@
+GET
+  FILE='C:\Users\Joyce\Documents\MATLAB\eeglab_current\eeglab2021.0\SPSS_Pz.sav'.
+DATASET NAME DataSet1 WINDOW=FRONT.
+GLM condition1 condition2 condition3
+  /WSFACTOR=condition 3 Polynomial
+  /METHOD=SSTYPE(3)
+  /EMMEANS=TABLES(OVERALL)
+  /EMMEANS=TABLES(condition) COMPARE ADJ(LSD)
+  /PRINT=DESCRIPTIVE ETASQ PARAMETER
+  /CRITERIA=ALPHA(.05)
+  /WSDESIGN=condition.
+
+
+T-TEST PAIRS=condition1 condition1 condition2 WITH condition2 condition3 condition3 (PAIRED)
+  /CRITERIA=CI(.9500)
+  /MISSING=ANALYSIS.
